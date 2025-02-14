@@ -256,13 +256,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['MANYCHAT_BASE_URL'] = ''; // empty
       const client = new Manychat({ token: 'My Token' });
-      expect(client.baseURL).toEqual('');
+      expect(client.baseURL).toEqual('https://api.manychat.com');
     });
 
     test('blank env variable', () => {
       process.env['MANYCHAT_BASE_URL'] = '  '; // blank
       const client = new Manychat({ token: 'My Token' });
-      expect(client.baseURL).toEqual('');
+      expect(client.baseURL).toEqual('https://api.manychat.com');
     });
   });
 
