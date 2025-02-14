@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { type ManyChat } from './client';
+import { type Manychat } from './client';
 
 import { type PromiseOrValue } from './internal/types';
 import { APIResponseProps, defaultParseResponse } from './internal/parse';
@@ -11,13 +11,13 @@ import { APIResponseProps, defaultParseResponse } from './internal/parse';
  */
 export class APIPromise<T> extends Promise<T> {
   private parsedPromise: Promise<T> | undefined;
-  #client: ManyChat;
+  #client: Manychat;
 
   constructor(
-    client: ManyChat,
+    client: Manychat,
     private responsePromise: Promise<APIResponseProps>,
     private parseResponse: (
-      client: ManyChat,
+      client: Manychat,
       props: APIResponseProps,
     ) => PromiseOrValue<T> = defaultParseResponse,
   ) {

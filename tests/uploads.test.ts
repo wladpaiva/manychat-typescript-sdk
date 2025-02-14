@@ -1,6 +1,6 @@
 import fs from 'fs';
-import type { ResponseLike } from 'ManyChat/internal/uploads';
-import { toFile } from 'ManyChat/uploads';
+import type { ResponseLike } from 'manychat/internal/uploads';
+import { toFile } from 'manychat/uploads';
 
 class MyClass {
   name: string = 'foo';

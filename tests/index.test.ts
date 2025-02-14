@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'ManyChat/api-promise';
+import { APIPromise } from 'manychat/api-promise';
 
 import util from 'node:util';
-import ManyChat from 'ManyChat';
-import { APIUserAbortError } from 'ManyChat';
+import Manychat from 'manychat';
+import { APIUserAbortError } from 'manychat';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {
@@ -22,7 +22,7 @@ describe('instantiate client', () => {
   });
 
   describe('defaultHeaders', () => {
-    const client = new ManyChat({
+    const client = new Manychat({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
       token: 'My Token',
@@ -53,10 +53,10 @@ describe('instantiate client', () => {
   });
   describe('logging', () => {
     afterEach(() => {
-      process.env['MANY_CHAT_LOG'] = undefined;
+      process.env['MANYCHAT_LOG'] = undefined;
     });
 
-    const forceAPIResponseForClient = async (client: ManyChat) => {
+    const forceAPIResponseForClient = async (client: Manychat) => {
       await new APIPromise(
         client,
         Promise.resolve({
@@ -79,7 +79,7 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new ManyChat({ logger: logger, logLevel: 'debug', token: 'My Token' });
+      const client = new Manychat({ logger: logger, logLevel: 'debug', token: 'My Token' });
 
       await forceAPIResponseForClient(client);
       expect(debugMock).toHaveBeenCalled();
@@ -94,7 +94,7 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new ManyChat({ logger: logger, logLevel: 'info', token: 'My Token' });
+      const client = new Manychat({ logger: logger, logLevel: 'info', token: 'My Token' });
 
       await forceAPIResponseForClient(client);
       expect(debugMock).not.toHaveBeenCalled();
@@ -109,8 +109,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['MANY_CHAT_LOG'] = 'debug';
-      const client = new ManyChat({ logger: logger, token: 'My Token' });
+      process.env['MANYCHAT_LOG'] = 'debug';
+      const client = new Manychat({ logger: logger, token: 'My Token' });
 
       await forceAPIResponseForClient(client);
       expect(debugMock).toHaveBeenCalled();
@@ -125,8 +125,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['MANY_CHAT_LOG'] = 'debug';
-      const client = new ManyChat({ logger: logger, logLevel: 'off', token: 'My Token' });
+      process.env['MANYCHAT_LOG'] = 'debug';
+      const client = new Manychat({ logger: logger, logLevel: 'off', token: 'My Token' });
 
       await forceAPIResponseForClient(client);
       expect(debugMock).not.toHaveBeenCalled();
@@ -135,7 +135,7 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new ManyChat({
+      const client = new Manychat({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
         token: 'My Token',
@@ -144,7 +144,7 @@ describe('instantiate client', () => {
     });
 
     test('multiple default query params', () => {
-      const client = new ManyChat({
+      const client = new Manychat({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
         token: 'My Token',
@@ -153,7 +153,7 @@ describe('instantiate client', () => {
     });
 
     test('overriding with `undefined`', () => {
-      const client = new ManyChat({
+      const client = new Manychat({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
         token: 'My Token',
@@ -163,7 +163,7 @@ describe('instantiate client', () => {
   });
 
   test('custom fetch', async () => {
-    const client = new ManyChat({
+    const client = new Manychat({
       baseURL: 'http://localhost:5000/',
       token: 'My Token',
       fetch: (url) => {
@@ -181,7 +181,7 @@ describe('instantiate client', () => {
 
   test('explicit global fetch', async () => {
     // make sure the global fetch type is assignable to our Fetch type
-    const client = new ManyChat({
+    const client = new Manychat({
       baseURL: 'http://localhost:5000/',
       token: 'My Token',
       fetch: defaultFetch,
@@ -189,7 +189,7 @@ describe('instantiate client', () => {
   });
 
   test('custom signal', async () => {
-    const client = new ManyChat({
+    const client = new Manychat({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
       token: 'My Token',
       fetch: (...args) => {
@@ -221,7 +221,7 @@ describe('instantiate client', () => {
       return new Response(JSON.stringify({}), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new ManyChat({ baseURL: 'http://localhost:5000/', token: 'My Token', fetch: testFetch });
+    const client = new Manychat({ baseURL: 'http://localhost:5000/', token: 'My Token', fetch: testFetch });
 
     await client.patch('/foo');
     expect(capturedRequest?.method).toEqual('PATCH');
@@ -229,69 +229,69 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new ManyChat({ baseURL: 'http://localhost:5000/custom/path/', token: 'My Token' });
+      const client = new Manychat({ baseURL: 'http://localhost:5000/custom/path/', token: 'My Token' });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     test('no trailing slash', () => {
-      const client = new ManyChat({ baseURL: 'http://localhost:5000/custom/path', token: 'My Token' });
+      const client = new Manychat({ baseURL: 'http://localhost:5000/custom/path', token: 'My Token' });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     afterEach(() => {
-      process.env['MANY_CHAT_BASE_URL'] = undefined;
+      process.env['MANYCHAT_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
-      const client = new ManyChat({ baseURL: 'https://example.com', token: 'My Token' });
+      const client = new Manychat({ baseURL: 'https://example.com', token: 'My Token' });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
-      process.env['MANY_CHAT_BASE_URL'] = 'https://example.com/from_env';
-      const client = new ManyChat({ token: 'My Token' });
+      process.env['MANYCHAT_BASE_URL'] = 'https://example.com/from_env';
+      const client = new Manychat({ token: 'My Token' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
-      process.env['MANY_CHAT_BASE_URL'] = ''; // empty
-      const client = new ManyChat({ token: 'My Token' });
+      process.env['MANYCHAT_BASE_URL'] = ''; // empty
+      const client = new Manychat({ token: 'My Token' });
       expect(client.baseURL).toEqual('');
     });
 
     test('blank env variable', () => {
-      process.env['MANY_CHAT_BASE_URL'] = '  '; // blank
-      const client = new ManyChat({ token: 'My Token' });
+      process.env['MANYCHAT_BASE_URL'] = '  '; // blank
+      const client = new Manychat({ token: 'My Token' });
       expect(client.baseURL).toEqual('');
     });
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new ManyChat({ maxRetries: 4, token: 'My Token' });
+    const client = new Manychat({ maxRetries: 4, token: 'My Token' });
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new ManyChat({ token: 'My Token' });
+    const client2 = new Manychat({ token: 'My Token' });
     expect(client2.maxRetries).toEqual(2);
   });
 
   test('with environment variable arguments', () => {
     // set options via env var
     process.env['MANYCHAT_TOKEN'] = 'My Token';
-    const client = new ManyChat();
+    const client = new Manychat();
     expect(client.token).toBe('My Token');
   });
 
   test('with overridden environment variable arguments', () => {
     // set options via env var
     process.env['MANYCHAT_TOKEN'] = 'another My Token';
-    const client = new ManyChat({ token: 'My Token' });
+    const client = new Manychat({ token: 'My Token' });
     expect(client.token).toBe('My Token');
   });
 });
 
 describe('request building', () => {
-  const client = new ManyChat({ token: 'My Token' });
+  const client = new Manychat({ token: 'My Token' });
 
   describe('custom headers', () => {
     test('handles undefined', () => {
@@ -310,7 +310,7 @@ describe('request building', () => {
 });
 
 describe('default encoder', () => {
-  const client = new ManyChat({ token: 'My Token' });
+  const client = new Manychat({ token: 'My Token' });
 
   class Serializable {
     toJSON() {
@@ -395,7 +395,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new ManyChat({ token: 'My Token', timeout: 10, fetch: testFetch });
+    const client = new Manychat({ token: 'My Token', timeout: 10, fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -425,7 +425,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new ManyChat({ token: 'My Token', fetch: testFetch, maxRetries: 4 });
+    const client = new Manychat({ token: 'My Token', fetch: testFetch, maxRetries: 4 });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
 
@@ -449,7 +449,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new ManyChat({ token: 'My Token', fetch: testFetch, maxRetries: 4 });
+    const client = new Manychat({ token: 'My Token', fetch: testFetch, maxRetries: 4 });
 
     expect(
       await client.request({
@@ -478,7 +478,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new ManyChat({
+    const client = new Manychat({
       token: 'My Token',
       fetch: testFetch,
       maxRetries: 4,
@@ -511,7 +511,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new ManyChat({ token: 'My Token', fetch: testFetch, maxRetries: 4 });
+    const client = new Manychat({ token: 'My Token', fetch: testFetch, maxRetries: 4 });
 
     expect(
       await client.request({
@@ -541,7 +541,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new ManyChat({ token: 'My Token', fetch: testFetch });
+    const client = new Manychat({ token: 'My Token', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -571,7 +571,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new ManyChat({ token: 'My Token', fetch: testFetch });
+    const client = new Manychat({ token: 'My Token', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);

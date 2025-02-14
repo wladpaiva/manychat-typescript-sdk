@@ -1,16 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import ManyChat from 'ManyChat';
+import Manychat from 'manychat';
 
-const client = new ManyChat({
+const client = new Manychat({
   token: 'My Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource page', () => {
+describe('resource subscriber', () => {
   // skipped: tests are disabled for the time being
-  test.skip('createBotField: only required params', async () => {
-    const responsePromise = client.fb.page.createBotField({ name: 'My bot name', type: 'text' });
+  test.skip('addTag: only required params', async () => {
+    const responsePromise = client.subscriber.addTag({ subscriber_id: 0, tag_id: 0 });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,21 +21,13 @@ describe('resource page', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('createBotField: required and optional params', async () => {
-    const response = await client.fb.page.createBotField({
-      name: 'My bot name',
-      type: 'text',
-      description: 'This field store my bot name',
-      value: "'string', 123, true, '2018-07-18', '2018-07-02T00:00:00+00:00'",
-    });
+  test.skip('addTag: required and optional params', async () => {
+    const response = await client.subscriber.addTag({ subscriber_id: 0, tag_id: 0 });
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('createCustomField: only required params', async () => {
-    const responsePromise = client.fb.page.createCustomField({
-      caption: 'My custom field name',
-      type: 'text',
-    });
+  test.skip('addTagByName: only required params', async () => {
+    const responsePromise = client.subscriber.addTagByName({ subscriber_id: 0, tag_name: 'tag_name' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -46,17 +38,13 @@ describe('resource page', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('createCustomField: required and optional params', async () => {
-    const response = await client.fb.page.createCustomField({
-      caption: 'My custom field name',
-      type: 'text',
-      description: 'This field store my custom field name',
-    });
+  test.skip('addTagByName: required and optional params', async () => {
+    const response = await client.subscriber.addTagByName({ subscriber_id: 0, tag_name: 'tag_name' });
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('createTag: only required params', async () => {
-    const responsePromise = client.fb.page.createTag({ name: 'My tag' });
+  test.skip('createSubscriber', async () => {
+    const responsePromise = client.subscriber.createSubscriber({});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -67,13 +55,8 @@ describe('resource page', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('createTag: required and optional params', async () => {
-    const response = await client.fb.page.createTag({ name: 'My tag' });
-  });
-
-  // skipped: tests are disabled for the time being
-  test.skip('listBotFields', async () => {
-    const responsePromise = client.fb.page.listBotFields();
+  test.skip('findByCustomField: only required params', async () => {
+    const responsePromise = client.subscriber.findByCustomField({ field_id: 0, field_value: 'field_value' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -84,8 +67,13 @@ describe('resource page', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('listCustomFields', async () => {
-    const responsePromise = client.fb.page.listCustomFields();
+  test.skip('findByCustomField: required and optional params', async () => {
+    const response = await client.subscriber.findByCustomField({ field_id: 0, field_value: 'field_value' });
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('findByName: only required params', async () => {
+    const responsePromise = client.subscriber.findByName({ name: 'name' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -96,8 +84,13 @@ describe('resource page', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('listFlows', async () => {
-    const responsePromise = client.fb.page.listFlows();
+  test.skip('findByName: required and optional params', async () => {
+    const response = await client.subscriber.findByName({ name: 'name' });
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('findBySystemField', async () => {
+    const responsePromise = client.subscriber.findBySystemField();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -108,56 +101,19 @@ describe('resource page', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('listGrowthTools', async () => {
-    const responsePromise = client.fb.page.listGrowthTools();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // skipped: tests are disabled for the time being
-  test.skip('listOtnTopics', async () => {
-    const responsePromise = client.fb.page.listOtnTopics();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // skipped: tests are disabled for the time being
-  test.skip('listTags', async () => {
-    const responsePromise = client.fb.page.listTags();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // skipped: tests are disabled for the time being
-  test.skip('listWidgets', async () => {
-    const responsePromise = client.fb.page.listWidgets();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
+  test.skip('findBySystemField: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.subscriber.findBySystemField(
+        { email: 'email', phone: 'phone' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Manychat.NotFoundError);
   });
 
   // skipped: tests are disabled for the time being
   test.skip('removeTag: only required params', async () => {
-    const responsePromise = client.fb.page.removeTag({ tag_id: 123 });
+    const responsePromise = client.subscriber.removeTag({ subscriber_id: 0, tag_id: 0 });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -169,12 +125,12 @@ describe('resource page', () => {
 
   // skipped: tests are disabled for the time being
   test.skip('removeTag: required and optional params', async () => {
-    const response = await client.fb.page.removeTag({ tag_id: 123 });
+    const response = await client.subscriber.removeTag({ subscriber_id: 0, tag_id: 0 });
   });
 
   // skipped: tests are disabled for the time being
   test.skip('removeTagByName: only required params', async () => {
-    const responsePromise = client.fb.page.removeTagByName({ tag_name: 'MyTagName' });
+    const responsePromise = client.subscriber.removeTagByName({ subscriber_id: 0, tag_name: 'tag_name' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -186,12 +142,12 @@ describe('resource page', () => {
 
   // skipped: tests are disabled for the time being
   test.skip('removeTagByName: required and optional params', async () => {
-    const response = await client.fb.page.removeTagByName({ tag_name: 'MyTagName' });
+    const response = await client.subscriber.removeTagByName({ subscriber_id: 0, tag_name: 'tag_name' });
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('retrieveInfo', async () => {
-    const responsePromise = client.fb.page.retrieveInfo();
+  test.skip('retrieveInfo: only required params', async () => {
+    const responsePromise = client.subscriber.retrieveInfo({ subscriber_id: 0 });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -202,10 +158,33 @@ describe('resource page', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('setBotField: only required params', async () => {
-    const responsePromise = client.fb.page.setBotField({
+  test.skip('retrieveInfo: required and optional params', async () => {
+    const response = await client.subscriber.retrieveInfo({ subscriber_id: 0 });
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('retrieveInfoByUserRef: only required params', async () => {
+    const responsePromise = client.subscriber.retrieveInfoByUserRef({ user_ref: 0 });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('retrieveInfoByUserRef: required and optional params', async () => {
+    const response = await client.subscriber.retrieveInfoByUserRef({ user_ref: 0 });
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('setCustomField: only required params', async () => {
+    const responsePromise = client.subscriber.setCustomField({
       field_id: 0,
       field_value: "'string', 123, true, '2018-07-18', '2018-07-02T00:00:00+00:00'",
+      subscriber_id: 0,
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -217,18 +196,20 @@ describe('resource page', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('setBotField: required and optional params', async () => {
-    const response = await client.fb.page.setBotField({
+  test.skip('setCustomField: required and optional params', async () => {
+    const response = await client.subscriber.setCustomField({
       field_id: 0,
       field_value: "'string', 123, true, '2018-07-18', '2018-07-02T00:00:00+00:00'",
+      subscriber_id: 0,
     });
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('setBotFieldByName: only required params', async () => {
-    const responsePromise = client.fb.page.setBotFieldByName({
+  test.skip('setCustomFieldByName: only required params', async () => {
+    const responsePromise = client.subscriber.setCustomFieldByName({
       field_name: 'field_name',
       field_value: "'string', 123, true, '2018-07-18', '2018-07-02T00:00:00+00:00'",
+      subscriber_id: 0,
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -240,16 +221,17 @@ describe('resource page', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('setBotFieldByName: required and optional params', async () => {
-    const response = await client.fb.page.setBotFieldByName({
+  test.skip('setCustomFieldByName: required and optional params', async () => {
+    const response = await client.subscriber.setCustomFieldByName({
       field_name: 'field_name',
       field_value: "'string', 123, true, '2018-07-18', '2018-07-02T00:00:00+00:00'",
+      subscriber_id: 0,
     });
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('setBotFields: only required params', async () => {
-    const responsePromise = client.fb.page.setBotFields({ fields: [{}] });
+  test.skip('setCustomFields: only required params', async () => {
+    const responsePromise = client.subscriber.setCustomFields({ fields: [{}], subscriber_id: 0 });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -260,8 +242,8 @@ describe('resource page', () => {
   });
 
   // skipped: tests are disabled for the time being
-  test.skip('setBotFields: required and optional params', async () => {
-    const response = await client.fb.page.setBotFields({
+  test.skip('setCustomFields: required and optional params', async () => {
+    const response = await client.subscriber.setCustomFields({
       fields: [
         {
           field_id: 0,
@@ -269,6 +251,59 @@ describe('resource page', () => {
           field_value: "'string', 123, true, '2018-07-18', '2018-07-02T00:00:00+00:00'",
         },
       ],
+      subscriber_id: 0,
+    });
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('updateSubscriber: only required params', async () => {
+    const responsePromise = client.subscriber.updateSubscriber({ subscriber_id: 0 });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('updateSubscriber: required and optional params', async () => {
+    const response = await client.subscriber.updateSubscriber({
+      subscriber_id: 0,
+      consent_phrase: 'consent_phrase',
+      email: 'email',
+      first_name: 'first_name',
+      gender: 'gender',
+      has_opt_in_email: true,
+      has_opt_in_sms: true,
+      last_name: 'last_name',
+      phone: 'phone',
+    });
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('verifyBySignedRequest: only required params', async () => {
+    const responsePromise = client.subscriber.verifyBySignedRequest({
+      signed_request:
+        '_1SXnOuwXiUrcDRxI1D6Dvr55aiNusDNMxyHb8PQe7Y.eyJhbGdvcml0aG0iOiJIT2FDLVNIQTI1NiIsImNvbW11bml0eV9pZCI6bnVsbCwiaXNzdWVkX2F0IjoxNTU5MjE8NTQxLCJtZXRhZGF0YSI6bnVsbCwicGFnZV9pZCI6MjI4NjkwMDEyNDk2MTgxOSwicHNpZCI6IjIxNzI0OTkwNDI4Njc2MjIiLCJ0aHJlYWRfcGFydGljaXBhbnRfaWRzIjpudWxsLCJ0aHJlYWRfdHlwZSI6IlVTRVJfVE9fUEFHRSIsInRpZCI1IjIxNzI0OTkwNDI4Njc2MjIifQ',
+      subscriber_id: 0,
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // skipped: tests are disabled for the time being
+  test.skip('verifyBySignedRequest: required and optional params', async () => {
+    const response = await client.subscriber.verifyBySignedRequest({
+      signed_request:
+        '_1SXnOuwXiUrcDRxI1D6Dvr55aiNusDNMxyHb8PQe7Y.eyJhbGdvcml0aG0iOiJIT2FDLVNIQTI1NiIsImNvbW11bml0eV9pZCI6bnVsbCwiaXNzdWVkX2F0IjoxNTU5MjE8NTQxLCJtZXRhZGF0YSI6bnVsbCwicGFnZV9pZCI6MjI4NjkwMDEyNDk2MTgxOSwicHNpZCI6IjIxNzI0OTkwNDI4Njc2MjIiLCJ0aHJlYWRfcGFydGljaXBhbnRfaWRzIjpudWxsLCJ0aHJlYWRfdHlwZSI6IlVTRVJfVE9fUEFHRSIsInRpZCI1IjIxNzI0OTkwNDI4Njc2MjIifQ',
+      subscriber_id: 0,
     });
   });
 });

@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^ManyChat(/.*)?',
+              regex: '^manychat(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

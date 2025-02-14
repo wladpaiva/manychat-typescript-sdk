@@ -1,16 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as FbAPI from './fb';
+import { APIResource } from '../resource';
 import * as PageAPI from './page';
-import { APIPromise } from '../../api-promise';
-import { RequestOptions } from '../../internal/request-options';
+import { APIPromise } from '../api-promise';
+import { RequestOptions } from '../internal/request-options';
 
 export class SubscriberResource extends APIResource {
   /**
    * **_Limit:_** 10 queries per second
    */
-  addTag(body: SubscriberAddTagParams, options?: RequestOptions): APIPromise<FbAPI.ResponseSuccess> {
+  addTag(body: SubscriberAddTagParams, options?: RequestOptions): APIPromise<SubscriberAddTagResponse> {
     return this._client.post('/fb/subscriber/addTag', { body, ...options });
   }
 
@@ -20,7 +19,7 @@ export class SubscriberResource extends APIResource {
   addTagByName(
     body: SubscriberAddTagByNameParams,
     options?: RequestOptions,
-  ): APIPromise<FbAPI.ResponseSuccess> {
+  ): APIPromise<SubscriberAddTagByNameResponse> {
     return this._client.post('/fb/subscriber/addTagByName', { body, ...options });
   }
 
@@ -74,7 +73,10 @@ export class SubscriberResource extends APIResource {
   /**
    * **_Limit:_** 10 queries per second
    */
-  removeTag(body: SubscriberRemoveTagParams, options?: RequestOptions): APIPromise<FbAPI.ResponseSuccess> {
+  removeTag(
+    body: SubscriberRemoveTagParams,
+    options?: RequestOptions,
+  ): APIPromise<SubscriberRemoveTagResponse> {
     return this._client.post('/fb/subscriber/removeTag', { body, ...options });
   }
 
@@ -84,7 +86,7 @@ export class SubscriberResource extends APIResource {
   removeTagByName(
     body: SubscriberRemoveTagByNameParams,
     options?: RequestOptions,
-  ): APIPromise<FbAPI.ResponseSuccess> {
+  ): APIPromise<SubscriberRemoveTagByNameResponse> {
     return this._client.post('/fb/subscriber/removeTagByName', { body, ...options });
   }
 
@@ -111,7 +113,7 @@ export class SubscriberResource extends APIResource {
   setCustomField(
     body: SubscriberSetCustomFieldParams,
     options?: RequestOptions,
-  ): APIPromise<FbAPI.ResponseSuccess> {
+  ): APIPromise<SubscriberSetCustomFieldResponse> {
     return this._client.post('/fb/subscriber/setCustomField', { body, ...options });
   }
 
@@ -121,7 +123,7 @@ export class SubscriberResource extends APIResource {
   setCustomFieldByName(
     body: SubscriberSetCustomFieldByNameParams,
     options?: RequestOptions,
-  ): APIPromise<FbAPI.ResponseSuccess> {
+  ): APIPromise<SubscriberSetCustomFieldByNameResponse> {
     return this._client.post('/fb/subscriber/setCustomFieldByName', { body, ...options });
   }
 
@@ -131,7 +133,7 @@ export class SubscriberResource extends APIResource {
   setCustomFields(
     body: SubscriberSetCustomFieldsParams,
     options?: RequestOptions,
-  ): APIPromise<FbAPI.ResponseSuccess> {
+  ): APIPromise<SubscriberSetCustomFieldsResponse> {
     return this._client.post('/fb/subscriber/setCustomFields', { body, ...options });
   }
 
@@ -253,6 +255,14 @@ export namespace Subscriber {
   }
 }
 
+export interface SubscriberAddTagResponse {
+  status?: string;
+}
+
+export interface SubscriberAddTagByNameResponse {
+  status?: string;
+}
+
 export interface SubscriberCreateSubscriberResponse {
   data?: Subscriber;
 
@@ -277,6 +287,14 @@ export interface SubscriberFindBySystemFieldResponse {
   status?: string;
 }
 
+export interface SubscriberRemoveTagResponse {
+  status?: string;
+}
+
+export interface SubscriberRemoveTagByNameResponse {
+  status?: string;
+}
+
 export interface SubscriberRetrieveInfoResponse {
   data?: Subscriber;
 
@@ -286,6 +304,18 @@ export interface SubscriberRetrieveInfoResponse {
 export interface SubscriberRetrieveInfoByUserRefResponse {
   data?: Subscriber;
 
+  status?: string;
+}
+
+export interface SubscriberSetCustomFieldResponse {
+  status?: string;
+}
+
+export interface SubscriberSetCustomFieldByNameResponse {
+  status?: string;
+}
+
+export interface SubscriberSetCustomFieldsResponse {
   status?: string;
 }
 
@@ -503,12 +533,19 @@ export interface SubscriberVerifyBySignedRequestParams {
 export declare namespace SubscriberResource {
   export {
     type Subscriber as Subscriber,
+    type SubscriberAddTagResponse as SubscriberAddTagResponse,
+    type SubscriberAddTagByNameResponse as SubscriberAddTagByNameResponse,
     type SubscriberCreateSubscriberResponse as SubscriberCreateSubscriberResponse,
     type SubscriberFindByCustomFieldResponse as SubscriberFindByCustomFieldResponse,
     type SubscriberFindByNameResponse as SubscriberFindByNameResponse,
     type SubscriberFindBySystemFieldResponse as SubscriberFindBySystemFieldResponse,
+    type SubscriberRemoveTagResponse as SubscriberRemoveTagResponse,
+    type SubscriberRemoveTagByNameResponse as SubscriberRemoveTagByNameResponse,
     type SubscriberRetrieveInfoResponse as SubscriberRetrieveInfoResponse,
     type SubscriberRetrieveInfoByUserRefResponse as SubscriberRetrieveInfoByUserRefResponse,
+    type SubscriberSetCustomFieldResponse as SubscriberSetCustomFieldResponse,
+    type SubscriberSetCustomFieldByNameResponse as SubscriberSetCustomFieldByNameResponse,
+    type SubscriberSetCustomFieldsResponse as SubscriberSetCustomFieldsResponse,
     type SubscriberUpdateSubscriberResponse as SubscriberUpdateSubscriberResponse,
     type SubscriberVerifyBySignedRequestResponse as SubscriberVerifyBySignedRequestResponse,
     type SubscriberAddTagParams as SubscriberAddTagParams,
