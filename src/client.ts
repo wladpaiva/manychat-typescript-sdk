@@ -54,7 +54,7 @@ export interface ClientOptions {
   /**
    * Bearer token for authentication
    */
-  bearerToken?: string | undefined;
+  token?: string | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -129,7 +129,7 @@ type FinalizedRequestInit = RequestInit & { headers: Headers };
  * API Client for interfacing with the Many Chat API.
  */
 export class ManyChat {
-  bearerToken: string;
+  token: string;
 
   baseURL: string;
   maxRetries: number;
@@ -146,7 +146,7 @@ export class ManyChat {
   /**
    * API Client for interfacing with the Many Chat API.
    *
-   * @param {string | undefined} [opts.bearerToken=process.env['BEARER_TOKEN'] ?? undefined]
+   * @param {string | undefined} [opts.token=process.env['MANYCHAT_TOKEN'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['MANY_CHAT_BASE_URL']] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
@@ -157,17 +157,17 @@ export class ManyChat {
    */
   constructor({
     baseURL = readEnv('MANY_CHAT_BASE_URL'),
-    bearerToken = readEnv('BEARER_TOKEN'),
+    token = readEnv('MANYCHAT_TOKEN'),
     ...opts
   }: ClientOptions = {}) {
-    if (bearerToken === undefined) {
+    if (token === undefined) {
       throw new Errors.ManyChatError(
-        "The BEARER_TOKEN environment variable is missing or empty; either provide it, or instantiate the ManyChat client with an bearerToken option, like new ManyChat({ bearerToken: 'My Bearer Token' }).",
+        "The MANYCHAT_TOKEN environment variable is missing or empty; either provide it, or instantiate the ManyChat client with an token option, like new ManyChat({ token: 'My Token' }).",
       );
     }
 
     const options: ClientOptions = {
-      bearerToken,
+      token,
       ...opts,
       baseURL,
     };
@@ -190,7 +190,7 @@ export class ManyChat {
 
     this._options = options;
 
-    this.bearerToken = bearerToken;
+    this.token = token;
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -199,6 +199,10 @@ export class ManyChat {
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
     return;
+  }
+
+  protected authHeaders(opts: FinalRequestOptions): Headers | undefined {
+    return new Headers({ Authorization: `Bearer ${this.token}` });
   }
 
   /**
@@ -545,6 +549,7 @@ export class ManyChat {
         ...(options.timeout ? { 'X-Stainless-Timeout': String(options.timeout) } : {}),
         ...getPlatformHeaders(),
       },
+      this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
       options.headers,

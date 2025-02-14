@@ -3,7 +3,7 @@
 import ManyChat from 'ManyChat';
 
 const client = new ManyChat({
-  bearerToken: 'My Bearer Token',
+  token: 'My Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
