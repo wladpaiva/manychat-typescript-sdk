@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'ManyChat/internal/uploads';
-import { toFile } from 'ManyChat/uploads';
+import { multipartFormRequestOptions, createForm } from 'manychat/internal/uploads';
+import { toFile } from 'manychat/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

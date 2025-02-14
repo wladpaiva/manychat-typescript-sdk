@@ -1,4 +1,4 @@
-import { ManyChatError } from '../../error';
+import { ManychatError } from '../../error';
 
 /**
  * Percent-encode everything that isn't safe to have in a path without encoding safe chars.
@@ -51,7 +51,7 @@ export const createPathTagFunction = (pathEncoder = encodeURIPath) =>
         return acc + spaces + arrows;
       }, '');
 
-      throw new ManyChatError(`Path parameters result in path with invalid segments:\n${path}\n${underline}`);
+      throw new ManychatError(`Path parameters result in path with invalid segments:\n${path}\n${underline}`);
     }
 
     return path;

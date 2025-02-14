@@ -7,8 +7,8 @@ const config: JestConfigWithTsJest = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
   moduleNameMapper: {
-    '^ManyChat$': '<rootDir>/src/index.ts',
-    '^ManyChat/(.*)$': '<rootDir>/src/$1',
+    '^manychat$': '<rootDir>/src/index.ts',
+    '^manychat/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
     '<rootDir>/ecosystem-tests/',

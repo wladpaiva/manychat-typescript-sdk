@@ -18,10 +18,83 @@ import { APIPromise } from './api-promise';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
+import {
+  BotField,
+  CustomField,
+  GrowthTools,
+  Page,
+  PageCreateBotFieldParams,
+  PageCreateBotFieldResponse,
+  PageCreateCustomFieldParams,
+  PageCreateCustomFieldResponse,
+  PageCreateTagParams,
+  PageCreateTagResponse,
+  PageListBotFieldsResponse,
+  PageListCustomFieldsResponse,
+  PageListFlowsResponse,
+  PageListGrowthToolsResponse,
+  PageListOtnTopicsResponse,
+  PageListTagsResponse,
+  PageListWidgetsResponse,
+  PageRemoveTagByNameParams,
+  PageRemoveTagByNameResponse,
+  PageRemoveTagParams,
+  PageRemoveTagResponse,
+  PageRetrieveInfoResponse,
+  PageSetBotFieldByNameParams,
+  PageSetBotFieldByNameResponse,
+  PageSetBotFieldParams,
+  PageSetBotFieldResponse,
+  PageSetBotFieldsParams,
+  PageSetBotFieldsResponse,
+  Tag,
+} from './resources/page';
+import {
+  Sending,
+  SendingSendContentByUserRefParams,
+  SendingSendContentByUserRefResponse,
+  SendingSendContentParams,
+  SendingSendContentResponse,
+  SendingSendFlowParams,
+  SendingSendFlowResponse,
+} from './resources/sending';
+import {
+  Subscriber,
+  SubscriberAddTagByNameParams,
+  SubscriberAddTagByNameResponse,
+  SubscriberAddTagParams,
+  SubscriberAddTagResponse,
+  SubscriberCreateSubscriberParams,
+  SubscriberCreateSubscriberResponse,
+  SubscriberFindByCustomFieldParams,
+  SubscriberFindByCustomFieldResponse,
+  SubscriberFindByNameParams,
+  SubscriberFindByNameResponse,
+  SubscriberFindBySystemFieldParams,
+  SubscriberFindBySystemFieldResponse,
+  SubscriberRemoveTagByNameParams,
+  SubscriberRemoveTagByNameResponse,
+  SubscriberRemoveTagParams,
+  SubscriberRemoveTagResponse,
+  SubscriberResource,
+  SubscriberRetrieveInfoByUserRefParams,
+  SubscriberRetrieveInfoByUserRefResponse,
+  SubscriberRetrieveInfoParams,
+  SubscriberRetrieveInfoResponse,
+  SubscriberSetCustomFieldByNameParams,
+  SubscriberSetCustomFieldByNameResponse,
+  SubscriberSetCustomFieldParams,
+  SubscriberSetCustomFieldResponse,
+  SubscriberSetCustomFieldsParams,
+  SubscriberSetCustomFieldsResponse,
+  SubscriberUpdateSubscriberParams,
+  SubscriberUpdateSubscriberResponse,
+  SubscriberVerifyBySignedRequestParams,
+  SubscriberVerifyBySignedRequestResponse,
+} from './resources/subscriber';
 import { readEnv } from './internal/utils/env';
 import { logger } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
-import { Fb, ResponseSuccess } from './resources/fb/fb';
 
 const safeJSON = (text: string) => {
   try {
@@ -59,7 +132,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['MANY_CHAT_BASE_URL'].
+   * Defaults to process.env['MANYCHAT_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -111,7 +184,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['MANY_CHAT_LOG'].
+   * Defaults to process.env['MANYCHAT_LOG'].
    */
   logLevel?: LogLevel | undefined | null;
 
@@ -126,9 +199,9 @@ export interface ClientOptions {
 type FinalizedRequestInit = RequestInit & { headers: Headers };
 
 /**
- * API Client for interfacing with the Many Chat API.
+ * API Client for interfacing with the Manychat API.
  */
-export class ManyChat {
+export class Manychat {
   token: string;
 
   baseURL: string;
@@ -144,10 +217,10 @@ export class ManyChat {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Many Chat API.
+   * API Client for interfacing with the Manychat API.
    *
    * @param {string | undefined} [opts.token=process.env['MANYCHAT_TOKEN'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['MANY_CHAT_BASE_URL']] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['MANYCHAT_BASE_URL']] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -156,13 +229,13 @@ export class ManyChat {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('MANY_CHAT_BASE_URL'),
+    baseURL = readEnv('MANYCHAT_BASE_URL'),
     token = readEnv('MANYCHAT_TOKEN'),
     ...opts
   }: ClientOptions = {}) {
     if (token === undefined) {
-      throw new Errors.ManyChatError(
-        "The MANYCHAT_TOKEN environment variable is missing or empty; either provide it, or instantiate the ManyChat client with an token option, like new ManyChat({ token: 'My Token' }).",
+      throw new Errors.ManychatError(
+        "The MANYCHAT_TOKEN environment variable is missing or empty; either provide it, or instantiate the Manychat client with an token option, like new Manychat({ token: 'My Token' }).",
       );
     }
 
@@ -173,12 +246,12 @@ export class ManyChat {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? ManyChat.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? Manychat.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     if (options.logLevel != null) {
       this.logLevel = options.logLevel;
     } else {
-      const envLevel = readEnv('MANY_CHAT_LOG');
+      const envLevel = readEnv('MANYCHAT_LOG');
       if (isLogLevel(envLevel)) {
         this.logLevel = envLevel;
       }
@@ -218,7 +291,7 @@ export class ManyChat {
         if (value === null) {
           return `${encodeURIComponent(key)}=`;
         }
-        throw new Errors.ManyChatError(
+        throw new Errors.ManychatError(
           `Cannot stringify type ${typeof value}; Expected string, number, boolean, or null. If you need to pass nested query parameters, you can manually encode them, e.g. { query: { 'foo[key1]': value1, 'foo[key2]': value2 } }, and please open a GitHub issue requesting better support for your use case.`,
         );
       })
@@ -597,10 +670,10 @@ export class ManyChat {
     }
   }
 
-  static ManyChat = this;
+  static Manychat = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static ManyChatError = Errors.ManyChatError;
+  static ManychatError = Errors.ManychatError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -616,11 +689,90 @@ export class ManyChat {
 
   static toFile = Uploads.toFile;
 
-  fb: API.Fb = new API.Fb(this);
+  page: API.Page = new API.Page(this);
+  sending: API.Sending = new API.Sending(this);
+  subscriber: API.SubscriberResource = new API.SubscriberResource(this);
 }
-ManyChat.Fb = Fb;
-export declare namespace ManyChat {
+Manychat.Page = Page;
+Manychat.Sending = Sending;
+Manychat.SubscriberResource = SubscriberResource;
+export declare namespace Manychat {
   export type RequestOptions = Opts.RequestOptions;
 
-  export { Fb as Fb, type ResponseSuccess as ResponseSuccess };
+  export {
+    Page as Page,
+    type BotField as BotField,
+    type CustomField as CustomField,
+    type GrowthTools as GrowthTools,
+    type Tag as Tag,
+    type PageCreateBotFieldResponse as PageCreateBotFieldResponse,
+    type PageCreateCustomFieldResponse as PageCreateCustomFieldResponse,
+    type PageCreateTagResponse as PageCreateTagResponse,
+    type PageListBotFieldsResponse as PageListBotFieldsResponse,
+    type PageListCustomFieldsResponse as PageListCustomFieldsResponse,
+    type PageListFlowsResponse as PageListFlowsResponse,
+    type PageListGrowthToolsResponse as PageListGrowthToolsResponse,
+    type PageListOtnTopicsResponse as PageListOtnTopicsResponse,
+    type PageListTagsResponse as PageListTagsResponse,
+    type PageListWidgetsResponse as PageListWidgetsResponse,
+    type PageRemoveTagResponse as PageRemoveTagResponse,
+    type PageRemoveTagByNameResponse as PageRemoveTagByNameResponse,
+    type PageRetrieveInfoResponse as PageRetrieveInfoResponse,
+    type PageSetBotFieldResponse as PageSetBotFieldResponse,
+    type PageSetBotFieldByNameResponse as PageSetBotFieldByNameResponse,
+    type PageSetBotFieldsResponse as PageSetBotFieldsResponse,
+    type PageCreateBotFieldParams as PageCreateBotFieldParams,
+    type PageCreateCustomFieldParams as PageCreateCustomFieldParams,
+    type PageCreateTagParams as PageCreateTagParams,
+    type PageRemoveTagParams as PageRemoveTagParams,
+    type PageRemoveTagByNameParams as PageRemoveTagByNameParams,
+    type PageSetBotFieldParams as PageSetBotFieldParams,
+    type PageSetBotFieldByNameParams as PageSetBotFieldByNameParams,
+    type PageSetBotFieldsParams as PageSetBotFieldsParams,
+  };
+
+  export {
+    Sending as Sending,
+    type SendingSendContentResponse as SendingSendContentResponse,
+    type SendingSendContentByUserRefResponse as SendingSendContentByUserRefResponse,
+    type SendingSendFlowResponse as SendingSendFlowResponse,
+    type SendingSendContentParams as SendingSendContentParams,
+    type SendingSendContentByUserRefParams as SendingSendContentByUserRefParams,
+    type SendingSendFlowParams as SendingSendFlowParams,
+  };
+
+  export {
+    SubscriberResource as SubscriberResource,
+    type Subscriber as Subscriber,
+    type SubscriberAddTagResponse as SubscriberAddTagResponse,
+    type SubscriberAddTagByNameResponse as SubscriberAddTagByNameResponse,
+    type SubscriberCreateSubscriberResponse as SubscriberCreateSubscriberResponse,
+    type SubscriberFindByCustomFieldResponse as SubscriberFindByCustomFieldResponse,
+    type SubscriberFindByNameResponse as SubscriberFindByNameResponse,
+    type SubscriberFindBySystemFieldResponse as SubscriberFindBySystemFieldResponse,
+    type SubscriberRemoveTagResponse as SubscriberRemoveTagResponse,
+    type SubscriberRemoveTagByNameResponse as SubscriberRemoveTagByNameResponse,
+    type SubscriberRetrieveInfoResponse as SubscriberRetrieveInfoResponse,
+    type SubscriberRetrieveInfoByUserRefResponse as SubscriberRetrieveInfoByUserRefResponse,
+    type SubscriberSetCustomFieldResponse as SubscriberSetCustomFieldResponse,
+    type SubscriberSetCustomFieldByNameResponse as SubscriberSetCustomFieldByNameResponse,
+    type SubscriberSetCustomFieldsResponse as SubscriberSetCustomFieldsResponse,
+    type SubscriberUpdateSubscriberResponse as SubscriberUpdateSubscriberResponse,
+    type SubscriberVerifyBySignedRequestResponse as SubscriberVerifyBySignedRequestResponse,
+    type SubscriberAddTagParams as SubscriberAddTagParams,
+    type SubscriberAddTagByNameParams as SubscriberAddTagByNameParams,
+    type SubscriberCreateSubscriberParams as SubscriberCreateSubscriberParams,
+    type SubscriberFindByCustomFieldParams as SubscriberFindByCustomFieldParams,
+    type SubscriberFindByNameParams as SubscriberFindByNameParams,
+    type SubscriberFindBySystemFieldParams as SubscriberFindBySystemFieldParams,
+    type SubscriberRemoveTagParams as SubscriberRemoveTagParams,
+    type SubscriberRemoveTagByNameParams as SubscriberRemoveTagByNameParams,
+    type SubscriberRetrieveInfoParams as SubscriberRetrieveInfoParams,
+    type SubscriberRetrieveInfoByUserRefParams as SubscriberRetrieveInfoByUserRefParams,
+    type SubscriberSetCustomFieldParams as SubscriberSetCustomFieldParams,
+    type SubscriberSetCustomFieldByNameParams as SubscriberSetCustomFieldByNameParams,
+    type SubscriberSetCustomFieldsParams as SubscriberSetCustomFieldsParams,
+    type SubscriberUpdateSubscriberParams as SubscriberUpdateSubscriberParams,
+    type SubscriberVerifyBySignedRequestParams as SubscriberVerifyBySignedRequestParams,
+  };
 }

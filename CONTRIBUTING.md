@@ -55,12 +55,12 @@ $ cd ManyChat-typescript
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link ManyChat
+$ yarn link manychat
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global ManyChat
+$ pnpm link -—global manychat
 ```
 
 ## Running tests

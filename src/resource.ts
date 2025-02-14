@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { ManyChat } from './client';
+import type { Manychat } from './client';
 
 export class APIResource {
-  protected _client: ManyChat;
+  protected _client: Manychat;
 
-  constructor(client: ManyChat) {
+  constructor(client: Manychat) {
     this._client = client;
   }
 }

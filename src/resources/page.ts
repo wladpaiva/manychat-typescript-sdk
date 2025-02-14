@@ -1,10 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
+import { APIResource } from '../resource';
 import * as PageAPI from './page';
-import * as FbAPI from './fb';
-import { APIPromise } from '../../api-promise';
-import { RequestOptions } from '../../internal/request-options';
+import { APIPromise } from '../api-promise';
+import { RequestOptions } from '../internal/request-options';
 
 export class Page extends APIResource {
   /**
@@ -112,7 +111,7 @@ export class Page extends APIResource {
   /**
    * **_Limit:_** 10 queries per second
    */
-  setBotField(body: PageSetBotFieldParams, options?: RequestOptions): APIPromise<FbAPI.ResponseSuccess> {
+  setBotField(body: PageSetBotFieldParams, options?: RequestOptions): APIPromise<PageSetBotFieldResponse> {
     return this._client.post('/fb/page/setBotField', { body, ...options });
   }
 
@@ -122,14 +121,14 @@ export class Page extends APIResource {
   setBotFieldByName(
     body: PageSetBotFieldByNameParams,
     options?: RequestOptions,
-  ): APIPromise<FbAPI.ResponseSuccess> {
+  ): APIPromise<PageSetBotFieldByNameResponse> {
     return this._client.post('/fb/page/setBotFieldByName', { body, ...options });
   }
 
   /**
    * **_Limit:_** 10 queries per second
    */
-  setBotFields(body: PageSetBotFieldsParams, options?: RequestOptions): APIPromise<FbAPI.ResponseSuccess> {
+  setBotFields(body: PageSetBotFieldsParams, options?: RequestOptions): APIPromise<PageSetBotFieldsResponse> {
     return this._client.post('/fb/page/setBotFields', { body, ...options });
   }
 }
@@ -329,6 +328,18 @@ export namespace PageRetrieveInfoResponse {
   }
 }
 
+export interface PageSetBotFieldResponse {
+  status?: string;
+}
+
+export interface PageSetBotFieldByNameResponse {
+  status?: string;
+}
+
+export interface PageSetBotFieldsResponse {
+  status?: string;
+}
+
 export interface PageCreateBotFieldParams {
   name: string;
 
@@ -422,6 +433,9 @@ export declare namespace Page {
     type PageRemoveTagResponse as PageRemoveTagResponse,
     type PageRemoveTagByNameResponse as PageRemoveTagByNameResponse,
     type PageRetrieveInfoResponse as PageRetrieveInfoResponse,
+    type PageSetBotFieldResponse as PageSetBotFieldResponse,
+    type PageSetBotFieldByNameResponse as PageSetBotFieldByNameResponse,
+    type PageSetBotFieldsResponse as PageSetBotFieldsResponse,
     type PageCreateBotFieldParams as PageCreateBotFieldParams,
     type PageCreateCustomFieldParams as PageCreateCustomFieldParams,
     type PageCreateTagParams as PageCreateTagParams,

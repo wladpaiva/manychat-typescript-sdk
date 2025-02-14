@@ -1,10 +1,10 @@
-# Many Chat TypeScript API Library
+# Manychat TypeScript API Library
 
-[![NPM version](https://img.shields.io/npm/v/ManyChat.svg)](https://npmjs.org/package/ManyChat) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/ManyChat)
+[![NPM version](https://img.shields.io/npm/v/manychat.svg)](https://npmjs.org/package/manychat) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/manychat)
 
-This library provides convenient access to the Many Chat REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Manychat REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [docs.manychat.com](https://docs.ManyChat.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [help.manychat.com](https://help.manychat.com/hc/en-us). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainlessapi.com/).
 
@@ -15,7 +15,7 @@ npm install git+ssh://git@github.com:stainless-sdks/ManyChat-typescript.git
 ```
 
 > [!NOTE]
-> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install ManyChat`
+> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install manychat`
 
 ## Usage
 
@@ -23,12 +23,12 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import ManyChat from 'ManyChat';
+import Manychat from 'manychat';
 
-const client = new ManyChat();
+const client = new Manychat();
 
 async function main() {
-  const response = await client.fb.page.retrieveInfo();
+  const response = await client.page.retrieveInfo();
 
   console.log(response.data);
 }
@@ -42,12 +42,12 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import ManyChat from 'ManyChat';
+import Manychat from 'manychat';
 
-const client = new ManyChat();
+const client = new Manychat();
 
 async function main() {
-  const response: ManyChat.Fb.PageRetrieveInfoResponse = await client.fb.page.retrieveInfo();
+  const response: Manychat.PageRetrieveInfoResponse = await client.page.retrieveInfo();
 }
 
 main();
@@ -64,8 +64,8 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const response = await client.fb.page.retrieveInfo().catch(async (err) => {
-    if (err instanceof ManyChat.APIError) {
+  const response = await client.page.retrieveInfo().catch(async (err) => {
+    if (err instanceof Manychat.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
       console.log(err.headers); // {server: 'nginx', ...}
@@ -102,12 +102,12 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new ManyChat({
+const client = new Manychat({
   maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
-await client.fb.page.retrieveInfo({
+await client.page.retrieveInfo({
   maxRetries: 5,
 });
 ```
@@ -119,12 +119,12 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new ManyChat({
+const client = new Manychat({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
-await client.fb.page.retrieveInfo({
+await client.page.retrieveInfo({
   timeout: 5 * 1000,
 });
 ```
@@ -143,13 +143,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 
 <!-- prettier-ignore -->
 ```ts
-const client = new ManyChat();
+const client = new Manychat();
 
-const response = await client.fb.page.retrieveInfo().asResponse();
+const response = await client.page.retrieveInfo().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.fb.page.retrieveInfo().withResponse();
+const { data: response, response: raw } = await client.page.retrieveInfo().withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(response.data);
 ```
@@ -215,7 +215,7 @@ Or pass it to the client:
 ```ts
 import fetch from 'my-fetch';
 
-const client = new ManyChat({ fetch });
+const client = new Manychat({ fetch });
 ```
 
 ### Logging and middleware
@@ -225,9 +225,9 @@ which can be used to inspect or alter the `Request` or `Response` before/after e
 
 ```ts
 import { fetch } from 'undici'; // as one example
-import ManyChat from 'ManyChat';
+import Manychat from 'manychat';
 
-const client = new ManyChat({
+const client = new Manychat({
   fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
     console.log('About to make a request', url, init);
     const response = await fetch(url, init);
@@ -237,7 +237,7 @@ const client = new ManyChat({
 });
 ```
 
-Note that if given a `MANY_CHAT_LOG=debug` environment variable, this library will log all requests and responses automatically.
+Note that if given a `MANYCHAT_LOG=debug` environment variable, this library will log all requests and responses automatically.
 This is intended for debugging purposes only and may change in the future without notice.
 
 ### Fetch options
@@ -245,9 +245,9 @@ This is intended for debugging purposes only and may change in the future withou
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import ManyChat from 'ManyChat';
+import Manychat from 'manychat';
 
-const client = new ManyChat({
+const client = new Manychat({
   fetchOptions: {
     // `RequestInit` options
   },
@@ -262,11 +262,11 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import ManyChat from 'ManyChat';
+import Manychat from 'manychat';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new ManyChat({
+const client = new Manychat({
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -276,9 +276,9 @@ const client = new ManyChat({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import ManyChat from 'ManyChat';
+import Manychat from 'manychat';
 
-const client = new ManyChat({
+const client = new Manychat({
   fetchOptions: {
     proxy: 'http://localhost:8888',
   },
@@ -288,10 +288,10 @@ const client = new ManyChat({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import ManyChat from 'npm:ManyChat';
+import Manychat from 'npm:manychat';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new ManyChat({
+const client = new Manychat({
   fetchOptions: {
     client: httpClient,
   },
